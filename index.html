@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annisa Haryoko - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .blur-circle {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 500px;
+            height: 500px;
+            background: #3b82f6;
+            top: -250px;
+            right: -250px;
+        }
+
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: #8b5cf6;
+            bottom: -200px;
+            left: -200px;
+        }
+
+        .circle-3 {
+            width: 300px;
+            height: 300px;
+            background: #ec4899;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .nav-item {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .skill-badge {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: -40px;
+            width: 2px;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6, transparent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 8px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 3px solid #0f172a;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        .hero-subtitle {
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-link {
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .lang-toggle { position: relative; width: 70px; height: 32px; background: rgba(59, 130, 246, 0.2); border-radius: 16px; cursor: pointer; transition: all 0.3s ease; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .lang-toggle:hover { background: rgba(59, 130, 246, 0.3); }
+        .lang-slider { position: absolute; width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 50%; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: white; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5); }
+        .lang-toggle.en .lang-slider { transform: translateX(38px); }
+    </style>
+</head>
+<body class="relative">
+    <div class="scroll-indicator" id="scrollProgress"></div>
+    <div class="blur-circle circle-1"></div>
+    <div class="blur-circle circle-2"></div>
+    <div class="blur-circle circle-3"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-slate-900/70 border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-2xl font-bold gradient-text font-code">{'Annisa Haryoko'}</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-home">Home</a>
+                    <a href="#about" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-about">Tentang</a>
+                    <a href="#experience" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-experience">Pengalaman</a>
+                    <a href="#projects" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-projects">Proyek</a>
+                    <a href="#skills" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-skills">Keahlian</a>
+                    <a href="#contact" class="nav-item text-slate-300 hover:text-white" data-lang-key="nav-contact">Kontak</a>
+                    <div class="lang-toggle" id="langToggle" title="Toggle Language">
+                        <div class="lang-slider" id="langSlider">ID</div>
+                    </div>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
+                <a href="#home" class="block text-slate-300 hover:text-white" data-lang-key="nav-home">Home</a>
+                <a href="#about" class="block text-slate-300 hover:text-white" data-lang-key="nav-about">Tentang</a>
+                <a href="#experience" class="block text-slate-300 hover:text-white" data-lang-key="nav-experience">Pengalaman</a>
+                <a href="#projects" class="block text-slate-300 hover:text-white" data-lang-key="nav-projects">Proyek</a>
+                <a href="#skills" class="block text-slate-300 hover:text-white" data-lang-key="nav-skills">Keahlian</a>
+                <a href="#contact" class="block text-slate-300 hover:text-white" data-lang-key="nav-contact">Kontak</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <div id="star-container" class="stars"></div>
+    <section id="home" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="max-w-7xl mx-auto text-center z-10">
+            <div class="floating mb-8 flex justify-center">
+                <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 opacity-80">
+                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                    <path d="M9 12H4s.5 5 2 8l4.5-4.5"/>
+                    <path d="M15 8c.13 0 .25.12.25.25a.25.25 0 0 1-.25.25.25.25 0 0 1-.25-.25c0-.13.12-.25.25-.25z"/>
+                </svg>
+            </div>
+            <div class="mb-6">
+                <span class="font-code text-blue-400 text-sm md:text-base" data-lang-key="hero-greeting">Hai, nama saya</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-bold mb-6">
+                <span class="gradient-text">Annisa Haryoko</span>
+            </h1>
+            <p class="text-2xl md:text-4xl text-slate-400 mb-8 hero-subtitle" data-lang-key="hero-subtitle">
+                I build things for the web & workflow automation
+            </p>
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-12 hero-subtitle" data-lang-key="hero-role">
+                Web Developer | AI Enthusiast | UI/UX Designer
+            </p>
+            <div class="flex justify-center gap-6 mb-12 hero-subtitle">
+                <a href="https://github.com/annishryk" target="_blank" class="social-link text-slate-400 hover:text-blue-400">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/annisaharyoko20/" target="_blank" class="social-link text-slate-400 hover:text-blue-400">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/annis.hryk/" target="_blank" class="social-link text-slate-400 hover:text-blue-400">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+            </div>
+            <a href="#contact" class="inline-block px-10 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" data-lang-key="hero-cta">
+                Hubungi Saya
+            </a>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto z-10">
+            <h2 class="section-title text-4xl md:text-5xl font-bold mb-16 text-center" data-lang-key="about-title">Tentang Saya</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-slate-300 leading-relaxed text-lg">
+                    <p data-lang-key="about-p1">Halo! Saya Annisa Haryoko, seorang Junior Programmer yang berorientasi pada solusi dan lulusan Teknik Informatika yang berspesialisasi dalam aplikasi web dan otomatisasi.</p>
+                    <p data-lang-key="about-p2">Berhasil membangun sistem SAKPU (KPPU) berbasis Laravel yang mengintegrasikan otomatisasi WhatsApp via n8n, serta mengembangkan Portal Web KPPU dengan fitur AI Chatbot, sistem multibahasa, dan standar aksesibilitas tinggi. Memiliki rekam jejak dalam merancang basis data MySQL untuk sistem informasi koperasi dan berpengalaman dalam mengelola full-cycle development mulai dari perancangan hingga implementasi fitur cerdas.</p>
+                    <p data-lang-key="about-p3">Selain pemrograman, saya juga tertarik pada Desain UI/UX dan senang menciptakan antarmuka yang memberikan pengalaman pengguna yang optimal.</p>
+                </div>
+                <div class="relative">
+                    <div class="relative w-full h-80 rounded-2xl overflow-hidden border-4 border-blue-500/30 shadow-2xl shadow-blue-500/20 float-animation bg-slate-800 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-5xl font-bold text-white shadow-lg">AH</div>
+                            <p class="text-slate-400 font-code text-sm" data-lang-key="about-photo">// Foto Segera Hadir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Experience Section -->
+    <section id="experience" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto z-10">
+            <h2 class="section-title text-4xl md:text-5xl font-bold mb-16 text-center" data-lang-key="experience-title">Pengalaman Kerja</h2>
+            <div class="space-y-12">
+                <!-- Exp 1 -->
+                <div class="timeline-item card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white mb-2 md:mb-0" data-lang-key="exp1-title">Junior Programmer</h3>
+                        <span class="font-code text-blue-400 text-sm">Oktober 2025 - April 2026</span>
+                    </div>
+                    <p class="text-purple-400 font-semibold mb-4 text-lg">PT. Smaart Kreasi Digital</p>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp1-desc1">Mengembangkan sistem otomasi WhatsApp (SAKPU) menggunakan Laravel, n8n, dan WAHA API untuk alur registrasi serta simulasi otomatis.</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp1-desc2">Membangun dan mengelola portal resmi kppu.go.id dengan fokus pada performa, skalabilitas, dan standar aksesibilitas tinggi.</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp1-desc3">Mengintegrasikan AI-powered Chatbot (DeepSeek via OpenRouter) pada sistem web dan WhatsApp untuk meningkatkan layanan bantuan pengguna.</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp1-desc4">Mengimplementasikan sistem multibahasa (Indonesia & Inggris) dinamis dan mengoptimalkan manajemen konten (CMS) pada portal nasional.</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp1-desc5">Merancang arsitektur backend API dan database MySQL yang aman dengan penerapan enkripsi, rate limiting, dan validasi data real-time.</span></li>
+                    </ul>
+                    <div class="mt-6 text-sm text-slate-400 font-code">
+                        Tech Stack: Laravel, MySQL, n8n, WAHA, OpenRouter AI, WhatsApp Business API, Tailwind CSS, dan RESTful API.
+                    </div>
+                </div>
+                <!-- Exp 2 -->
+                <div class="timeline-item card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white mb-2 md:mb-0" data-lang-key="exp2-title">Web Programmer</h3>
+                        <span class="font-code text-blue-400 text-sm">Maret - Juli 2023</span>
+                    </div>
+                    <p class="text-purple-400 font-semibold mb-4 text-lg">Dinas Koperasi Kota Bogor (Magang Industri)</p>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp2-desc1">Membuat rancangan database koperasi</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp2-desc2">Membangun website untuk koperasi Kota Bogor</span></li>
+                        <li class="flex items-start"><span class="text-blue-400 mr-3 mt-1">▹</span><span data-lang-key="exp2-desc3">Membangun CMS (Content Management System) untuk koperasi kota bogor</span></li>
+                    </ul>
+                    <div class="mt-6 text-sm text-slate-400 font-code">
+                        Bahasa Pemrograman: PHP, Laravel dan Mysql
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto z-10">
+            <h2 class="section-title text-4xl md:text-5xl font-bold mb-16 text-center" data-lang-key="projects-title">Proyek Unggulan</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-slate-700/50 flex items-center justify-center p-8">
+                        <svg class="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3" data-lang-key="project1-title">Web Sistem KPPU RI</h3>
+                        <p class="text-slate-400 mb-4 text-sm" data-lang-key="project1-desc">Mengembangkan dan mengelola portal resmi kppu.go.id menggunakan framework Laravel dengan fokus pada performa dan skalabilitas untuk melayani akses publik nasional.</p>
+                        <div class="flex flex-wrap gap-2 mb-4 font-code text-[10px]">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">Laravel</span>
+                            <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded">AI Integration</span>
+                            <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded">Web Accessibility Standards</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-slate-700/50 flex items-center justify-center p-8">
+                        <svg class="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3" data-lang-key="project2-title">Sistem Otomasi Whatsapp (SAKPU)</h3>
+                        <p class="text-slate-400 mb-4 text-sm" data-lang-key="project2-desc">Mengembangkan sistem registrasi user dan alur simulasi sakpu menggunakan WhatsApp Business API dengan integrasi WAHA (WhatsApp HTTP API) dan n8n workflow automation.</p>
+                        <div class="flex flex-wrap gap-2 mb-4 font-code text-[10px]">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">Laravel</span>
+                            <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded">n8n</span>
+                            <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded">Waha (Whatsapp API)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden">
+                    <div class="h-48 bg-slate-700/50 flex items-center justify-center p-8">
+                        <svg class="w-16 h-16 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-3" data-lang-key="project3-title">Sistem Pakar Gaya Belajar Siswa</h3>
+                        <p class="text-slate-400 mb-4 text-sm" data-lang-key="project3-desc">Sistem pakar berbasis web untuk mendiagnosa gaya belajar seseorang menggunakan Model VARK (Visual, Auditory, Read/Write, Kinesthetic) dengan metode Certainty Factor.</p>
+                        <div class="flex flex-wrap gap-2 mb-4 font-code text-[10px]">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">Laravel</span>
+                            <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded">Bootstrap CSS</span>
+                            <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded">Certainty Factor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto z-10">
+            <h2 class="section-title text-4xl md:text-5xl font-bold mb-16 text-center" data-lang-key="skills-title">Keahlian & Teknologi</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Frontend -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded flex items-center justify-center mr-4 text-blue-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white" data-lang-key="skills-frontend">Frontend Development</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">HTML5</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">CSS3</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">JavaScript</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">TypeScript</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Next.js</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">TailwindCSS</span>
+                    </div>
+                </div>
+                <!-- Backend -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-green-500/20 rounded flex items-center justify-center mr-4 text-green-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white" data-lang-key="skills-backend">Backend Development</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">PHP</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Laravel</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Node.js</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Express.js</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Python</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">RESTful API</span>
+                    </div>
+                </div>
+                <!-- Database -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded flex items-center justify-center mr-4 text-purple-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white" data-lang-key="skills-database">Database</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">MySQL</span>
+                    </div>
+                </div>
+                <!-- Automation -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-orange-500/20 rounded flex items-center justify-center mr-4 text-orange-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white" data-lang-key="skills-automation">Automation</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">n8n</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">workflow</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">waha</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">webhook</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">OpenRouter</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Groq</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">ultramsg</span>
+                    </div>
+                </div>
+                <!-- Dev Tools -->
+                <div class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-pink-500/20 rounded flex items-center justify-center mr-4 text-pink-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a2 2 0 11-4 0V4zM7 8a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"></path><path d="M7 15v2a3 3 0 003 3h4a3 3 0 003-3v-2"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white" data-lang-key="skills-tools">Development Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Git</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Github</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">VS Code</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Postman</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">PhpMyAdmin</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Laragon</span>
+                        <span class="skill-badge px-3 py-1 bg-slate-700/50 border border-slate-600 rounded text-sm">Xampp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="relative py-20 px-6 mb-20">
+        <div class="max-w-4xl mx-auto z-10">
+            <h2 class="section-title text-4xl md:text-5xl font-bold mb-8 text-center" data-lang-key="contact-title">Hubungi Saya</h2>
+            <p class="text-lg text-slate-400 text-center mb-12 max-w-2xl mx-auto" data-lang-key="contact-subtitle">
+                Saya selalu terbuka untuk kesempatan kolaborasi baru atau sekadar berdiskusi tentang teknologi. Jangan ragu untuk menghubungi saya!
+            </p>
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+                <!-- Card Email -->
+                <a href="mailto:annisaharyoko20@gmail.com" class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 text-center group">
+                    <div class="w-14 h-14 bg-indigo-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2" data-lang-key="contact-email">Email</h3>
+                    <p class="text-slate-400 text-sm">annisaharyoko20@gmail.com</p>
+                </a>
+                <!-- Card LinkedIn -->
+                <a href="https://www.linkedin.com/in/annisaharyoko20/" target="_blank" class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 text-center group">
+                    <div class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2" data-lang-key="contact-linkedin">LinkedIn</h3>
+                    <p class="text-slate-400 text-sm" data-lang-key="contact-linkedin-desc">Terhubung dengan saya</p>
+                </a>
+                <!-- Card GitHub -->
+                <a href="https://github.com/annishryk" target="_blank" class="card-hover bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 text-center group">
+                    <div class="w-14 h-14 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2" data-lang-key="contact-github">GitHub</h3>
+                    <p class="text-slate-400 text-sm" data-lang-key="contact-github-desc">Lihat repositori saya</p>
+                </a>
+            </div>
+
+            <!-- Form Kontak -->
+            <div class="bg-slate-800/50 backdrop-blur-md rounded-3xl p-10 border border-slate-700/50 shadow-xl">
+                <h3 class="text-2xl font-bold text-center mb-8" data-lang-key="form-title">Kirim Pesan</h3>
+                <form class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300" data-lang-key="form-name">Nama Kamu</label>
+                            <input type="text" placeholder="Nama lengkap" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300" data-lang-key="form-email">Email Kamu</label>
+                            <input type="email" placeholder="email@example.com" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300" data-lang-key="form-message">Pesan</label>
+                        <textarea rows="4" placeholder="Tuliskan pesanmu di sini..." class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="px-10 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105" data-lang-key="form-cta">
+                            Sapa Saya 👋
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="relative border-t border-slate-700/50 py-12 px-6 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-slate-300 mb-4 text-lg" data-lang-key="footer-text">Dirancang & Dibangun oleh Annisa Haryoko</p>
+            <p class="text-slate-500 text-sm font-code">© <span id="year"></span> <span data-lang-key="footer-rights">Semua hak dilindungi</span></p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <script>
+        const translations = {
+            id: {
+                'nav-home': 'Home', 'nav-about': 'Tentang', 'nav-experience': 'Pengalaman',
+                'nav-projects': 'Proyek', 'nav-skills': 'Keahlian', 'nav-contact': 'Kontak',
+                'hero-greeting': 'Hai, nama saya',
+                'hero-subtitle': 'I build things for the web & workflow automation',
+                'hero-role': 'Web Developer | AI Enthusiast | UI/UX Designer',
+                'hero-cta': 'Hubungi Saya',
+                'about-title': 'Tentang Saya',
+                'about-p1': 'Halo! Saya Annisa Haryoko, seorang Junior Programmer yang berorientasi pada solusi dan lulusan Teknik Informatika yang berspesialisasi dalam aplikasi web dan otomatisasi.',
+                'about-p2': 'Berhasil membangun sistem SAKPU (KPPU) berbasis Laravel yang mengintegrasikan otomatisasi WhatsApp via n8n, serta mengembangkan Portal Web KPPU dengan fitur AI Chatbot, sistem multibahasa, dan standar aksesibilitas tinggi. Memiliki rekam jejak dalam merancang basis data MySQL untuk sistem informasi koperasi dan berpengalaman dalam mengelola full-cycle development mulai dari perancangan hingga implementasi fitur cerdas.',
+                'about-p3': 'Selain pemrograman, saya juga tertarik pada Desain UI/UX dan senang menciptakan antarmuka yang memberikan pengalaman pengguna yang optimal.',
+                'about-photo': '// Foto Segera Hadir',
+                'experience-title': 'Pengalaman Kerja',
+                'exp1-title': 'Junior Programmer',
+                'exp1-desc1': 'Mengembangkan sistem otomasi WhatsApp (SAKPU) menggunakan Laravel, n8n, dan WAHA API untuk alur registrasi serta simulasi otomatis.',
+                'exp1-desc2': 'Membangun dan mengelola portal resmi kppu.go.id dengan fokus pada performa, skalabilitas, dan standar aksesibilitas tinggi.',
+                'exp1-desc3': 'Mengintegrasikan AI-powered Chatbot (DeepSeek via OpenRouter) pada sistem web dan WhatsApp untuk meningkatkan layanan bantuan pengguna.',
+                'exp1-desc4': 'Mengimplementasikan sistem multibahasa (Indonesia & Inggris) dinamis dan mengoptimalkan manajemen konten (CMS) pada portal nasional.',
+                'exp1-desc5': 'Merancang arsitektur backend API dan database MySQL yang aman dengan penerapan enkripsi, rate limiting, dan validasi data real-time.',
+                'exp2-title': 'Web Programmer',
+                'exp2-desc1': 'Membuat rancangan database koperasi',
+                'exp2-desc2': 'Membangun website untuk koperasi Kota Bogor',
+                'exp2-desc3': 'Membangun CMS (Content Management System) untuk koperasi kota bogor',
+                'projects-title': 'Proyek Unggulan',
+                'project1-title': 'Web Sistem KPPU RI',
+                'project1-desc': 'Mengembangkan dan mengelola portal resmi kppu.go.id menggunakan framework Laravel dengan fokus pada performa dan skalabilitas untuk melayani akses publik nasional.',
+                'project2-title': 'Sistem Otomasi Whatsapp (SAKPU)',
+                'project2-desc': 'Mengembangkan sistem registrasi user dan alur simulasi sakpu menggunakan WhatsApp Business API dengan integrasi WAHA (WhatsApp HTTP API) dan n8n workflow automation.',
+                'project3-title': 'Sistem Pakar Gaya Belajar Siswa',
+                'project3-desc': 'Sistem pakar berbasis web untuk mendiagnosa gaya belajar seseorang menggunakan Model VARK (Visual, Auditory, Read/Write, Kinesthetic) dengan metode Certainty Factor.',
+                'skills-title': 'Keahlian & Teknologi',
+                'skills-frontend': 'Frontend Development', 'skills-backend': 'Backend Development',
+                'skills-database': 'Database', 'skills-automation': 'Automation',
+                'skills-tools': 'Development Tools',
+                'contact-title': 'Hubungi Saya',
+                'contact-subtitle': 'Saya selalu terbuka untuk kesempatan kolaborasi baru atau sekadar berdiskusi tentang teknologi. Jangan ragu untuk menghubungi saya!',
+                'contact-email': 'Email', 'contact-linkedin': 'LinkedIn',
+                'contact-linkedin-desc': 'Terhubung dengan saya',
+                'contact-github': 'GitHub', 'contact-github-desc': 'Lihat repositori saya',
+                'form-title': 'Kirim Pesan',
+                'form-name': 'Nama Kamu',
+                'form-email': 'Email Kamu',
+                'form-message': 'Pesan',
+                'form-cta': 'Sapa Saya 👋',
+                'footer-text': 'Dirancang & Dibangun oleh Annisa Haryoko',
+                'footer-rights': 'Semua hak dilindungi'
+            },
+            en: {
+                'nav-home': 'Home', 'nav-about': 'About', 'nav-experience': 'Experience',
+                'nav-projects': 'Projects', 'nav-skills': 'Skills', 'nav-contact': 'Contact',
+                'hero-greeting': 'Hi, my name is',
+                'hero-subtitle': 'I build things for the web & workflow automation',
+                'hero-role': 'Web Developer | AI Enthusiast | UI/UX Designer',
+                'hero-cta': 'Get In Touch',
+                'about-title': 'About Me',
+                'about-p1': 'Hello! I am Annisa Haryoko, a solution-oriented Junior Programmer and Informatics Engineering graduate specializing in web applications and automation.',
+                'about-p2': 'Successfully built the SAKPU (KPPU) system based on Laravel integrated with WhatsApp automation via n8n, and developed the KPPU Web Portal with AI Chatbot features, multilingual systems, and high accessibility standards. Experienced in designing MySQL databases for cooperative information systems and managing full-cycle development from design to implementation of smart features.',
+                'about-p3': 'Beyond programming, I am also interested in UI/UX Design and enjoy creating interfaces that provide an optimal user experience.',
+                'about-photo': '// Photo Coming Soon',
+                'experience-title': 'Work Experience',
+                'exp1-title': 'Junior Programmer',
+                'exp1-desc1': 'Developed a WhatsApp automation system (SAKPU) using Laravel, n8n, and WAHA API for registration flows and automated simulations.',
+                'exp1-desc2': 'Built and managed the official kppu.go.id portal focusing on performance, scalability, and high accessibility standards.',
+                'exp1-desc3': 'Integrated AI-powered Chatbots (DeepSeek via OpenRouter) into web and WhatsApp platforms to enhance user support.',
+                'exp1-desc4': 'Implemented dynamic multilingual systems (Indonesian & English) and optimized the Content Management System (CMS) for the national portal.',
+                'exp1-desc5': 'Designed secure backend API architectures and MySQL databases with encryption, rate limiting, and real-time validation.',
+                'exp2-title': 'Web Programmer',
+                'exp2-desc1': 'Created cooperative database designs.',
+                'exp2-desc2': 'Developed a website for Bogor City cooperatives.',
+                'exp2-desc3': 'Built a Content Management System (CMS) for Bogor City cooperatives.',
+                'projects-title': 'Featured Projects',
+                'project1-title': 'Web System KPPU RI',
+                'project1-desc': 'Developed and managed the official kppu.go.id portal using Laravel with a focus on performance and scalability for national public access.',
+                'project2-title': 'Whatsapp Automation (SAKPU)',
+                'project2-desc': 'Developed a user registration and simulation workflow system using WhatsApp Business API with WAHA and n8n workflow automation integration.',
+                'project3-title': 'Student Learning Style Expert System',
+                'project3-desc': 'A web-based expert system to diagnose learning styles using the VARK Model (Visual, Auditory, Read/Write, Kinesthetic) with the Certainty Factor method.',
+                'skills-title': 'Skills & Technologies',
+                'skills-frontend': 'Frontend Development', 'skills-backend': 'Backend Development',
+                'skills-database': 'Database', 'skills-automation': 'Automation',
+                'skills-tools': 'Development Tools',
+                'contact-title': 'Get In Touch',
+                'contact-subtitle': 'I am always open to new collaboration opportunities or simply discussing technology. Feel free to reach out!',
+                'contact-email': 'Email', 'contact-linkedin': 'LinkedIn',
+                'contact-linkedin-desc': 'Connect with me',
+                'contact-github': 'GitHub', 'contact-github-desc': 'Check my repos',
+                'form-title': 'Send a Message',
+                'form-name': 'Your Name',
+                'form-email': 'Your Email',
+                'form-message': 'Message',
+                'form-cta': 'Say Hello 👋',
+                'footer-text': 'Designed & Built by Annisa Haryoko',
+                'footer-rights': 'All rights reserved'
+            }
+        };
+
+        let currentLang = localStorage.getItem('preferred-lang') || 'id';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.lang-toggle').forEach(t => t.classList.toggle('en', lang === 'en'));
+            document.querySelectorAll('.lang-slider').forEach(s => s.textContent = lang.toUpperCase());
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                const val = translations[lang]?.[key];
+                if (val !== undefined) el.innerHTML = val;
+            });
+            localStorage.setItem('preferred-lang', lang);
+        }
+
+        document.getElementById('langToggle')?.addEventListener('click', () => {
+            setLanguage(currentLang === 'id' ? 'en' : 'id');
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            setLanguage(currentLang);
+
+            window.addEventListener('scroll', () => {
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                document.getElementById('scrollProgress').style.width = (window.pageYOffset / total * 100) + '%';
+            });
+
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) { 
+                        e.target.style.opacity = '1'; 
+                        e.target.style.transform = 'translateY(0)'; 
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.card-hover').forEach(c => {
+                c.style.opacity = '0';
+                c.style.transform = 'translateY(30px)';
+                c.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                obs.observe(c);
+            });
+
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            const container = document.getElementById('star-container');
+            if (container) {
+                for (let i = 0; i < 150; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    const size = Math.random() * 3;
+                    star.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;`;
+                    star.style.setProperty('--duration', `${2 + Math.random() * 4}s`);
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(star);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
